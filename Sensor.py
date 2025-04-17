@@ -28,7 +28,11 @@ class Sensor:
         """
         Symuluje pobranie odczytu z czujnika.
         W klasie bazowej zwraca losową wartość z przedziału [min_value, max_value].
+        Jeżeli zapytanie było wykonane mniej niż 1 sekundę temu, to zwróci ostatnio pobrany wynik.
         """
+        if not self.active:
+            raise Exception(f"{self.name} jest wyłączony.")
+
         current_time = time.time()
 
         if self.last_read_time is not None and current_time - self.last_read_time < 1:

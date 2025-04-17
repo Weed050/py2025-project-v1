@@ -1,14 +1,14 @@
-import Sensor
+from Sensor import Sensor
 import datetime
 import random
 
 class TemperatureSensor(Sensor):
     def __init__(self, sensor_id, name="Czujnik temperatury", unit="°C",min_value=-20, max_value=50, frequency=1):
-        super().__init__(self, sensor_id, name, unit,min_value, max_value, frequency)
+        super().__init__(sensor_id, name, unit,min_value, max_value, frequency)
 
     def get_temperature_range(self):
         """
-        Zwraca zakres temperatury zależny od aktualnego miesiąca.
+        Zwraca zakres temperatury zależny od aktualnego miesiąca i pory dnia.
         """
         month = datetime.datetime.now().month
         hour = datetime.datetime.now().hour
@@ -22,8 +22,8 @@ class TemperatureSensor(Sensor):
 
         if 22 <= hour or hour < 6:
             temp_drop = random.randint(1, 5)
-            min_temp = max(self.min_value, min_temp - temp_drop)
-            max_temp = max(min_temp, max_temp - temp_drop)
+            min_temp -= temp_drop
+            max_temp -= temp_drop
 
         return min_temp, max_temp
 
@@ -31,10 +31,8 @@ class TemperatureSensor(Sensor):
         """
         Generuje losową temperaturę zgodnie z aktualnym miesiącem i porą dnia.
         """
-        if not self.active:
-            raise Exception(f"{self.name} jest wyłączony.")
 
         min_value, max_value = self.get_temperature_range()
-        value = random.uniform(min_value, max_value)
-        self.last_value = round(value, 2)
-        return self.last_value
+        self.max_value = max_value
+        self.min_value = min_value
+        return super().read_value()
