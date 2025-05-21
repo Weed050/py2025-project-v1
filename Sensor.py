@@ -1,6 +1,9 @@
 
 import random
 import time
+import datetime
+from typing import List, Callable
+
 
 class Sensor:
     def __init__(self, sensor_id, name, unit, min_value, max_value, frequency=1):
@@ -23,6 +26,24 @@ class Sensor:
         self.active = True
         self.last_value = None
         self.last_read_time = None
+        self.observers: List[Callable[[str, datetime.datetime, float, str], None]] = []
+        #               List[Callable[[sensor_ID, data, wartość, jednostka_miary], None <   - void]]
+
+    def _notify_observers(self, value: float):
+        timestamp = datetime.datetime.now()
+        for callback in self.observers:
+            try:
+                callback(self.sensor_id, timestamp, value, self.unit)
+            except Exception as e:
+                print(f"Błąd w _notify_observers: {e}")
+
+    def register_observer(self, callback : Callable[[str,datetime.datetime,float,str],None]):
+        if callback in self.observers:
+            self.observers.append(callback)
+
+    def remove_observer(self, callback : Callable[[str,datetime.datetime,float,str],None]):
+        if callback in self.observers:
+            self.observers.remove(callback)
 
     def read_value(self):
         """
@@ -44,6 +65,8 @@ class Sensor:
         value = round(random.uniform(self.min_value, self.max_value), 2)
         self.last_value = value
         self.last_read_time = current_time
+
+        self._notify_observers(value)
         return value
 
     def calibrate(self, calibration_factor):
