@@ -1,12 +1,11 @@
 
 import random
-import time
 import datetime
 from typing import List, Callable
 
 
 class Sensor:
-    def __init__(self, sensor_id, name, unit, min_value, max_value, frequency=1):
+    def __init__(self, sensor_id, name, unit, min_value = -1000, max_value=1000, frequency=1):
         """
         Inicjalizacja czujnika.
 
@@ -54,9 +53,9 @@ class Sensor:
         if not self.active:
             raise Exception(f"{self.name} jest wyłączony.")
 
-        current_time = time.time()
+        current_time = datetime.datetime.now()
 
-        if self.last_read_time is not None and current_time - self.last_read_time < 1:
+        if self.last_read_time is not None and (current_time - self.last_read_time) < datetime.timedelta(seconds=1):
             return self.get_last_value()
 
         if not self.active:

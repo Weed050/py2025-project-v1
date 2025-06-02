@@ -5,10 +5,6 @@ import json
 import os
 from typing import List, Iterator, Dict, Optional
 
-
-
-
-
 class Logger:
     def __init__(self, config_path: str):
         with open(config_path,"r",encoding='utf-8') as file:
@@ -24,6 +20,7 @@ class Logger:
             self.last_rotation_time = datetime.now()
             self.fileName = None
             self.filePath = None
+            self.stopped = False
 
         newpath = [self.log_dir,os.path.join(self.log_dir,"archive")]
         for i in newpath:
@@ -60,8 +57,15 @@ class Logger:
         """
         Wymusza zapis bufora i zamyka bieżący plik.
         """
-        self.csv_write.flush()
+        if self.stopped:
+            return
+        self.stopped = True
         if self.csv_write:
+            if self.buffor:
+                writer = csv.writer(self.csv_write)
+                writer.writerows(self.buffor)
+                self.buffor = []
+            self.csv_write.flush()
             self.csv_write.close()
             self.csv_write = None
 

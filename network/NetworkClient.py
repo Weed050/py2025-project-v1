@@ -5,7 +5,7 @@ from datetime import datetime
 
 import yaml
 
-from network.Logger import Logger
+from logger.Logger import Logger
 
 class NetworkClient:
     def __init__(
@@ -18,13 +18,10 @@ class NetworkClient:
         logger: Logger = None,
     ):
         """Inicjalizuje klienta sieciowego."""
-        self.socket = socket.socket(socket.AF_INET,socket.SOCK_STREAM)
-        self.socket.settimeout(timeout)
         self.logger = logger
 
         if config_path:
             self._load_config(config_path)
-            self.socket.settimeout(self.timeout)
         else:
             self.host = host
             self.port = port
@@ -50,15 +47,16 @@ class NetworkClient:
         self.port = config["port"]
         self.timeout = config["timeout"]
         self.retries = config["retries"]
-        self.socket.settimeout(self.timeout)
 
     def connect(self) -> None:
         """Nawiazuje połączenie z serwerem."""
         try:
-            self.socket.connect((self.host,self.port))
-            self._log_event("Połączono z serwerem",value=1.0)
+            self.socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+            self.socket.settimeout(self.timeout)
+            self.socket.connect((self.host, self.port))
+            self._log_event("Połączono z serwerem", value=1.0)
         except Exception as ex:
-            self._log_event("Połączono z serwerem",value=0.0,unit="error")
+            self._log_event("Połączono z serwerem", value=0.0, unit="error")
             raise
 
     def send(self, data: dict) -> bool:
@@ -67,7 +65,7 @@ class NetworkClient:
 
         for attempt in range(1,self.retries+1):
             try:
-                self._log_event(f"Próba wysyłki (podejscie {attempt}",value=1.0)
+                self._log_event(f"Próba wysyłki (podejscie nr. {attempt})",value=1.0)
                 self.socket.sendall(serialized)
 
                 # response = self.socket.recv(1024)
@@ -91,10 +89,14 @@ class NetworkClient:
         self._log_event("Nie udało się wysłać po wszystkich próbach.",value=0.0, unit="error")
         return False
 
+
+
     def close(self) -> None:
         """Zamyka połączenie."""
         try:
-            self.socket.close()
+            if self.socket:
+                self.socket.close()
+                self.socket = None
             self._log_event("Zamknięto połączenie", value=1.0)
         except Exception as ex:
             self._log_event(f"Wystąpił błąd podczas zamykania połączenia: {ex}", value=0.0, unit="error")
