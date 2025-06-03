@@ -276,3 +276,39 @@ network_client,2025-06-02T15:11:38.854191,0.0,ERROR: Błąd: [WinError 10054] An
 network_client,2025-06-02T15:11:38.854191,1.0,Próba wysyłki (podejscie nr. 5)
 network_client,2025-06-02T15:11:38.854191,0.0,ERROR: Błąd: [WinError 10054] An existing connection was forcibly closed by the remote host
 network_client,2025-06-02T15:11:38.854191,0.0,ERROR: Nie udało się wysłać po wszystkich próbach.
+network_client,2025-06-02T15:31:34.117592,0.0,ERROR: Połączono z serwerem
+network_client,2025-06-02T15:31:34.118641,1.0,Zamknięto połączenie
+network_client,2025-06-02T15:31:49.577591,1.0,Połączono z serwerem
+Temp1,2025-06-02T15:31:49.577591,19.08,°C
+network_client,2025-06-02T15:31:49.577591,1.0,Próba wysyłki (podejscie nr. 1)
+network_client,2025-06-02T15:31:49.587638,1.0,Otrzymano ACK
+Light1,2025-06-02T15:31:51.588395,12037.5,lx
+network_client,2025-06-02T15:31:51.588940,1.0,Próba wysyłki (podejscie nr. 1)
+network_client,2025-06-02T15:31:51.591176,1.0,Otrzymano ACK
+Light1,2025-06-02T15:31:53.592024,43318.54,lx
+network_client,2025-06-02T15:31:53.592024,1.0,Próba wysyłki (podejscie nr. 1)
+network_client,2025-06-02T15:31:53.593482,1.0,Otrzymano ACK
+Light1,2025-06-02T15:31:55.594501,92540.84,lx
+network_client,2025-06-02T15:31:55.594501,1.0,Próba wysyłki (podejscie nr. 1)
+network_client,2025-06-02T15:31:55.596079,1.0,Otrzymano ACK
+Light1,2025-06-02T15:31:57.597180,75342.04,lx
+network_client,2025-06-02T15:31:57.597180,1.0,Próba wysyłki (podejscie nr. 1)
+network_client,2025-06-02T15:31:57.599234,1.0,Otrzymano ACK
+Temp1,2025-06-02T15:31:59.600557,27.18,°C
+network_client,2025-06-02T15:31:59.601090,1.0,Próba wysyłki (podejscie nr. 1)
+network_client,2025-06-02T15:31:59.610157,1.0,Otrzymano ACK
+Light1,2025-06-02T15:32:01.611452,39205.29,lx
+network_client,2025-06-02T15:32:01.611452,1.0,Próba wysyłki (podejscie nr. 1)
+network_client,2025-06-02T15:32:01.616558,1.0,Otrzymano ACK
+Temp1,2025-06-02T15:32:03.617792,23.05,°C
+network_client,2025-06-02T15:32:03.617792,1.0,Próba wysyłki (podejscie nr. 1)
+network_client,2025-06-02T15:32:03.618807,1.0,Otrzymano ACK
+Light1,2025-06-02T15:32:05.619597,44388.64,lx
+network_client,2025-06-02T15:32:05.619597,1.0,Próba wysyłki (podejscie nr. 1)
+network_client,2025-06-02T15:32:05.625123,1.0,Otrzymano ACK
+AirQual1,2025-06-02T15:32:07.626590,104.4,AQI
+network_client,2025-06-02T15:32:07.626590,1.0,Próba wysyłki (podejscie nr. 1)
+network_client,2025-06-02T15:32:07.627602,1.0,Otrzymano ACK
+AirQual1,2025-06-02T15:32:09.628667,57.74,AQI
+network_client,2025-06-02T15:32:09.628667,1.0,Próba wysyłki (podejscie nr. 1)
+network_client,2025-06-02T15:32:09.633682,1.0,Otrzymano ACK

@@ -68,7 +68,6 @@ class NetworkClient:
                 self._log_event(f"Próba wysyłki (podejscie nr. {attempt})",value=1.0)
                 self.socket.sendall(serialized)
 
-                # response = self.socket.recv(1024)
                 buffer = b""
                 while not buffer.endswith(b"\n"):
                     part = self.socket.recv(1024)

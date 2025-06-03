@@ -19,7 +19,7 @@ class SensorGUI:
         self.root = root
         self.root.title("Network Server GUI")
 
-        # Konfiguracja
+        # konfiguracja
         self.load_config()
         self.server = None
         self.server_thread = None
@@ -42,7 +42,7 @@ class SensorGUI:
             yaml.dump({"port": self.port_entry.get()}, f)
 
     def setup_ui(self):
-        # Górny panel - sterowanie
+        # górny panel - sterowanie
         control_frame = ttk.Frame(self.root, padding="10")
         control_frame.grid(row=0, column=0, sticky="ew")
 
@@ -57,7 +57,7 @@ class SensorGUI:
         self.stop_btn = ttk.Button(control_frame, text="Stop", command=self.stop_server, state="disabled")
         self.stop_btn.grid(row=0, column=3, padx=5)
 
-        # Tabela czujników
+        # tabela czujników
         sensor_frame = ttk.Frame(self.root, padding="10")
         sensor_frame.grid(row=1, column=0, sticky="nsew")
 
@@ -74,7 +74,7 @@ class SensorGUI:
         scrollbar.grid(row=0, column=1, sticky="ns")
         self.tree.configure(yscrollcommand=scrollbar.set)
 
-        # Pasek statusu
+        # pasek statusu
         self.status_var = tk.StringVar(value="Status: Zatrzymany")
         status_bar = ttk.Label(self.root, textvariable=self.status_var, relief="sunken")
         status_bar.grid(row=2, column=0, sticky="ew", padx=10, pady=10)
@@ -85,7 +85,7 @@ class SensorGUI:
         sensor_frame.columnconfigure(0, weight=1)
         sensor_frame.rowconfigure(0, weight=1)
 
-        # Aktualizacja interfejsu
+        # aktualizacja interfejsu
         self.update_ui()
 
 
@@ -104,12 +104,12 @@ class SensorGUI:
         # logi danych
         self.logger.log_reading(sensor_id, timestamp, value, unit)
 
-        # Aktualizacja danych czujnika
+        # aktualizacja danych czujnika
         if sensor_id in self.sensors:
             self.sensors[sensor_id]["values"].append(value)
             self.sensors[sensor_id]["timestamps"].append(timestamp)
 
-            # Ogranicz historię do ostatnich 24h
+            # ograniczenie histori do ostatnich 24h
             cutoff = datetime.now() - timedelta(hours=24)
             indices = [i for i, ts in enumerate(self.sensors[sensor_id]["timestamps"]) if ts >= cutoff]
             self.sensors[sensor_id]["values"] = [self.sensors[sensor_id]["values"][i] for i in indices]
@@ -139,10 +139,7 @@ class SensorGUI:
 
             self.server.register_callback(self.handle_sensor_data)
 
-            # temp_sensor = Sensor(sensor_id="temp1", name="Temperatura", unit="°C", min_value=-20, max_value=50)
-            # self.add_sensor(temp_sensor)
-
-            # Uruchom serwer w osobnym wątku
+            # uruchomienie serwera w osobnym wątku (wiele przychodzących połączeń)
             self.server_thread = threading.Thread(target=self.server.start, daemon=True)
             self.server_thread.start()
 
@@ -163,9 +160,9 @@ class SensorGUI:
             self.stop_btn.config(state="disabled")
 
     def update_ui(self):
-        MAX_RECORDS = 100
+        MAX_RECORDS = 100       # ograniczenie rekordów do max 100
 
-        # Czyścimy tabelę
+        # czyszczenie tabeli
         for item in self.tree.get_children():
             self.tree.delete(item)
 
@@ -178,7 +175,7 @@ class SensorGUI:
             avg_1h = self.calculate_average(sensor_id, 1)
             avg_12h = self.calculate_average(sensor_id, 12)
 
-            # Wstawiamy wiersz ze średnimi
+            # wstawianie wierszy ze średnimi
             self.tree.insert("", "end", values=(
                 f"{sensor.name} (Średnia)",
                 "", "", "",
@@ -186,7 +183,7 @@ class SensorGUI:
                 avg_12h
             ))
 
-            # Ostatnie rekordy
+            # ostatnio dodane rekordy
             recent_values = values[-MAX_RECORDS:]
             recent_timestamps = timestamps[-MAX_RECORDS:]
 
@@ -201,7 +198,7 @@ class SensorGUI:
                     ""
                 ))
 
-        # Zaplanuj ponowne odświeżenie
+        # zaplanowanie odświeżenia UI
         self.root.after(5000, self.update_ui)
 
     def run(self):

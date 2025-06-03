@@ -15,7 +15,7 @@ class AirQualitySensor(Sensor):
 
         # 0-50 - ok
         # 50-100 - średnie
-        # 100-150 - niezdrowe dla grup luzdi wrażliwych
+        # 100-150 - niezdrowe dla grup ludzi wrażliwych
         # 150-200 - niezdrowe
         """
                 Jakość powietrza jest zależna od godziny w ciągu dnia.

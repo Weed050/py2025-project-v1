@@ -163,4 +163,4 @@ class Logger:
                                   "unit": row["unit"]
                             }
                 except Exception:
-                    continue # Pomija bledne wiersze
+                    continue # pomija bledne wiersze

@@ -24,7 +24,7 @@ sensors = [
     LightSensor(sensor_id="Light1")
 ]
 
-def handle_exit(signum, frame):
+def handle_exit(signum, frame):  # przy nagłym wyjściu z programu, zapisz buffor loggera
     print("\n[EXIT] Zapisuję logi i zamykam połączenia...")
     logger.stop()
     client.close()
@@ -36,7 +36,7 @@ signal.signal(signal.SIGTERM, handle_exit)  # kill
 atexit.register(logger.stop)
 atexit.register(client.close)
 
-# Rejestrujemy callbacki dla każdego sensora
+# rejestruje callbacki dla każdego sensora
 for sensor in sensors:
     sensor.register_observer(logger.log_reading)
     sensor.register_observer(lambda sid, ts, val, unit: client.send({
@@ -51,7 +51,7 @@ try:
 
     while True:
         chosen_sensor = random.choice(sensors)
-        chosen_sensor.read_value()
+        chosen_sensor.read_value()  #losowo wyślij dane jednego z sensorów
         time.sleep(2)
 
 except Exception as e:
