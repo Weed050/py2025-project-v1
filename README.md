@@ -1,4 +1,4 @@
-# py2025-project-v1
+# py2025-project-v1 - Wykonał Jan Zapotoczny
 
 ## Temat projektu:
 
